@@ -30,10 +30,9 @@ if __name__ == "__main__":
 
     try:
         link = BeautifulSoup(res.text, "html.parser").find("div").find("a").get("href")
-
     except AttributeError:
         link = parse_qs(
-            BeautifulSoup(res.text, "html.parser").find("div").find("a").get("href")
+            BeautifulSoup(res.text, "html.parser").find("a", {"class": "iUh30"}).get("href")
         )["url"][0]
 
     webbrowser.open(link)
