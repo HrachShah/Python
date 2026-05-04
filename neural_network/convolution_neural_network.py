@@ -138,7 +138,7 @@ class CNN:
         # expanding the data slice to one dimension
         focus1_list = []
         for each_focus in data_focus:
-            focus1_list.extend(self.Expand_Mat(each_focus))
+            focus1_list.extend(self._expand_mat(each_focus))
         focus_list = np.asarray(focus1_list)
         return focus_list, data_featuremap
 
