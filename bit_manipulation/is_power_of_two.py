@@ -3,8 +3,8 @@ Author  : Alexander Pantyukhin
 Date    : November 1, 2022
 
 Task:
-Given a positive int number. Return True if this number is power of 2
-or False otherwise.
+Given a positive int number. Return True if this number is a power of 2
+or False otherwise. 0 and 1 are not powers of 2.
 
 Implementation notes: Use bit manipulation.
 For example if the number is the power of two it's bits representation:
@@ -20,9 +20,9 @@ def is_power_of_two(number: int) -> bool:
     Return True if this number is power of 2 or False otherwise.
 
     >>> is_power_of_two(0)
-    True
+    False
     >>> is_power_of_two(1)
-    True
+    False
     >>> is_power_of_two(2)
     True
     >>> is_power_of_two(4)
@@ -48,6 +48,8 @@ def is_power_of_two(number: int) -> bool:
     """
     if number < 0:
         raise ValueError("number must not be negative")
+    if number < 2:
+        return False
     return number & (number - 1) == 0
 
 
