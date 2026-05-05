@@ -11,11 +11,12 @@ from typing import Any
 
 
 def fisher_yates_shuffle(data: list) -> list[Any]:
-    for _ in range(len(data)):
-        a = random.randint(0, len(data) - 1)
-        b = random.randint(0, len(data) - 1)
-        data[a], data[b] = data[b], data[a]
-    return data
+    data_copy = list(data)
+    for i in range(len(data_copy)):
+        a = random.randint(0, len(data_copy) - 1)
+        b = random.randint(0, len(data_copy) - 1)
+        data_copy[a], data_copy[b] = data_copy[b], data_copy[a]
+    return data_copy
 
 
 if __name__ == "__main__":
