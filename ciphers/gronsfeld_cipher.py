@@ -18,12 +18,12 @@ def gronsfeld(text: str, key: str) -> str:
     >>> gronsfeld('yes, ¥€$ - _!@#%?', '012')
     'YFU, ¥€$ - _!@#%?'
     >>> gronsfeld('yes, ¥€$ - _!@#%?', '')
-    Traceback (most recent call last):
-      ...
-    ZeroDivisionError: division by zero
+    'yes, ¥€$ - _!@#%?'
     """
     ascii_len = len(ascii_uppercase)
     key_len = len(key)
+    if key_len == 0:
+        return text
     encrypted_text = ""
     keys = [int(char) for char in key]
     upper_case_text = text.upper()
