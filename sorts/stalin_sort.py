@@ -33,6 +33,8 @@ def stalin_sort(sequence: list[int]) -> list[int]:
     >>> stalin_sort([1, 2, 8, 7, 6])
     [1, 2, 8]
     """
+    if not sequence:
+        return []
     result = [sequence[0]]
     for element in sequence[1:]:
         if element >= result[-1]:
