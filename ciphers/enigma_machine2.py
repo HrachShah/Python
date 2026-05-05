@@ -134,13 +134,14 @@ def _plugboard(pbstring: str) -> dict[str, str]:
     if not isinstance(pbstring, str):
         msg = f"Plugboard setting isn't type string ({type(pbstring)})"
         raise TypeError(msg)
-    elif len(pbstring) % 2 != 0:
+
+    pbstring = pbstring.replace(" ", "")
+
+    if len(pbstring) % 2 != 0:
         msg = f"Odd number of symbols ({len(pbstring)})"
         raise Exception(msg)
     elif pbstring == "":
         return {}
-
-    pbstring.replace(" ", "")
 
     # Checks if all characters are unique
     tmppbl = set()
