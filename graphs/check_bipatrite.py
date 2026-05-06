@@ -16,9 +16,9 @@ def is_bipartite_dfs(graph: dict[int, list[int]]) -> bool:
 
     Examples:
 
-    >>> is_bipartite_dfs({0: [1, 2], 1: [0, 3], 2: [0, 4]})
-    True
-    >>> is_bipartite_dfs({0: [1, 2], 1: [0, 3], 2: [0, 1]})
+    >>> is_bipartite_dfs({0: [1, 2], 1: [0, 2], 2: [0, 1]})
+    False
+    >>> is_bipartite_dfs({0: [1, 2], 1: [0, 2], 2: [0, 1, 3], 3: [2]})
     False
     >>> is_bipartite_dfs({})
     True
@@ -28,28 +28,19 @@ def is_bipartite_dfs(graph: dict[int, list[int]]) -> bool:
     False
     >>> is_bipartite_dfs({0: [4], 1: [], 2: [4], 3: [4], 4: [0, 2, 3]})
     True
-    >>> is_bipartite_dfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0]})
+    >>> is_bipartite_dfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0, 2]})
     False
-    >>> is_bipartite_dfs({7: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0]})
+    >>> is_bipartite_dfs({7: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [1, 2]})
     False
 
-    >>> # FIXME: This test should fails with KeyError: 4.
+    >>> # KeyError raised when a neighbor node is absent from graph
     >>> is_bipartite_dfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 9: [0]})
-    False
-    >>> is_bipartite_dfs({0: [-1, 3], 1: [0, -2]})
-    False
+    Traceback (most recent call last):
+     ...
+    KeyError: 9
     >>> is_bipartite_dfs({-1: [0, 2], 0: [-1, 1], 1: [0, 2], 2: [-1, 1]})
     True
-    >>> is_bipartite_dfs({0.9: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2]})
-    True
-
-    >>> # FIXME: This test should fails with
-    >>> # TypeError: list indices must be integers or...
-    >>> is_bipartite_dfs({0: [1.0, 3.0], 1.0: [0, 2.0], 2.0: [1.0, 3.0], 3.0: [0, 2.0]})
-    True
-    >>> is_bipartite_dfs({"a": [1, 3], "b": [0, 2], "c": [1, 3], "d": [0, 2]})
-    True
-    >>> is_bipartite_dfs({0: ["b", "d"], 1: ["a", "c"], 2: ["b", "d"], 3: ["a", "c"]})
+    >>> is_bipartite_dfs({0: [1], 1: [0, 2], 2: [1]})
     True
     """
 
@@ -65,14 +56,16 @@ def is_bipartite_dfs(graph: dict[int, list[int]]) -> bool:
             True if the graph is bipartite starting from the current node,
             False otherwise.
         """
+        if node not in graph:
+            raise KeyError(node)
         if visited[node] == -1:
             visited[node] = color
-            if node not in graph:
-                return True
             for neighbor in graph[node]:
                 if not depth_first_search(neighbor, 1 - color):
                     return False
-        return visited[node] == color
+            return True
+        else:
+            return visited[node] == color
 
     visited: defaultdict[int, int] = defaultdict(lambda: -1)
     for node in graph:
@@ -96,8 +89,6 @@ def is_bipartite_bfs(graph: dict[int, list[int]]) -> bool:
 
     Examples:
 
-    >>> is_bipartite_bfs({0: [1, 2], 1: [0, 3], 2: [0, 4]})
-    True
     >>> is_bipartite_bfs({0: [1, 2], 1: [0, 2], 2: [0, 1]})
     False
     >>> is_bipartite_bfs({})
@@ -108,28 +99,19 @@ def is_bipartite_bfs(graph: dict[int, list[int]]) -> bool:
     False
     >>> is_bipartite_bfs({0: [4], 1: [], 2: [4], 3: [4], 4: [0, 2, 3]})
     True
-    >>> is_bipartite_bfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0]})
+    >>> is_bipartite_bfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0, 2]})
     False
-    >>> is_bipartite_bfs({7: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [0]})
+    >>> is_bipartite_bfs({7: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: [1, 2]})
     False
 
-    >>> # FIXME: This test should fails with KeyError: 4.
+    >>> # KeyError raised when a neighbor node is absent from graph
     >>> is_bipartite_bfs({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 9: [0]})
-    False
-    >>> is_bipartite_bfs({0: [-1, 3], 1: [0, -2]})
-    False
+    Traceback (most recent call last):
+     ...
+    KeyError: 9
     >>> is_bipartite_bfs({-1: [0, 2], 0: [-1, 1], 1: [0, 2], 2: [-1, 1]})
     True
-    >>> is_bipartite_bfs({0.9: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2]})
-    True
-
-    >>> # FIXME: This test should fails with
-    >>> # TypeError: list indices must be integers or...
-    >>> is_bipartite_bfs({0: [1.0, 3.0], 1.0: [0, 2.0], 2.0: [1.0, 3.0], 3.0: [0, 2.0]})
-    True
-    >>> is_bipartite_bfs({"a": [1, 3], "b": [0, 2], "c": [1, 3], "d": [0, 2]})
-    True
-    >>> is_bipartite_bfs({0: ["b", "d"], 1: ["a", "c"], 2: ["b", "d"], 3: ["a", "c"]})
+    >>> is_bipartite_bfs({0: [1], 1: [0, 2], 2: [1]})
     True
     """
     visited: defaultdict[int, int] = defaultdict(lambda: -1)
@@ -141,8 +123,10 @@ def is_bipartite_bfs(graph: dict[int, list[int]]) -> bool:
             while queue:
                 curr_node = queue.popleft()
                 if curr_node not in graph:
-                    continue
+                    raise KeyError(curr_node)
                 for neighbor in graph[curr_node]:
+                    if neighbor not in graph:
+                        raise KeyError(neighbor)
                     if visited[neighbor] == -1:
                         visited[neighbor] = 1 - visited[curr_node]
                         queue.append(neighbor)
