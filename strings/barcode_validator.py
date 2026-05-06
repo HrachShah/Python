@@ -45,11 +45,13 @@ def is_valid(barcode: int) -> bool:
     False
     >>> is_valid(0)
     False
-    >>> is_valid(dwefgiweuf)
+    >>> is_valid("dwefgiweuf")
     Traceback (most recent call last):
         ...
-    NameError: name 'dwefgiweuf' is not defined
+    TypeError: barcode must be an integer
     """
+    if not isinstance(barcode, int):
+        raise TypeError("barcode must be an integer")
     return len(str(barcode)) == 13 and get_check_digit(barcode) == barcode % 10
 
 
