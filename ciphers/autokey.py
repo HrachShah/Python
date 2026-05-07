@@ -120,6 +120,7 @@ def decrypt(ciphertext: str, key: str) -> str:
             or ord(ciphertext[ciphertext_iterator]) > 122
         ):
             plaintext += ciphertext[ciphertext_iterator]
+            ciphertext_iterator += 1
         else:
             plaintext += chr(
                 (ord(ciphertext[ciphertext_iterator]) - ord(key[key_iterator])) % 26
@@ -130,7 +131,7 @@ def decrypt(ciphertext: str, key: str) -> str:
                 + 97
             )
             key_iterator += 1
-        ciphertext_iterator += 1
+            ciphertext_iterator += 1
     return plaintext
 
 
