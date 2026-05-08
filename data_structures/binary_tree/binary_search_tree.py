@@ -174,23 +174,24 @@ class BinarySearchTree:
         new_node = Node(value)  # create a new Node
         if self.empty():  # if Tree is empty
             self.root = new_node  # set its root
-        else:  # Tree is not empty
-            parent_node = self.root  # from root
-            if parent_node is None:
-                return
-            while True:  # While we don't get to a leaf
-                if value < parent_node.value:  # We go left
-                    if parent_node.left is None:
-                        parent_node.left = new_node  # We insert the new node in a leaf
-                        break
-                    else:
-                        parent_node = parent_node.left
-                elif parent_node.right is None:
-                    parent_node.right = new_node
+            return  # prevent fallthrough to traversal logic below
+        # Tree is not empty — traverse to find the insertion leaf
+        parent_node = self.root
+        if parent_node is None:
+            return
+        while True:  # While we don't get to a leaf
+            if value < parent_node.value:  # We go left
+                if parent_node.left is None:
+                    parent_node.left = new_node  # We insert the new node in a leaf
                     break
                 else:
-                    parent_node = parent_node.right
-            new_node.parent = parent_node
+                    parent_node = parent_node.left
+            elif parent_node.right is None:
+                parent_node.right = new_node
+                break
+            else:
+                parent_node = parent_node.right
+        new_node.parent = parent_node
 
     def insert(self, *values) -> Self:
         for value in values:
