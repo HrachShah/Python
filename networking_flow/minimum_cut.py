@@ -32,6 +32,8 @@ def mincut(graph, source, sink):
     >>> mincut(test_graph, source=0, sink=5)
     [(1, 3), (4, 3), (4, 5)]
     """
+    if source >= len(graph) or sink >= len(graph):
+        raise ValueError(f"source ({source}) and sink ({sink}) must be within graph bounds (0-{len(graph) - 1})")
     parent = [-1] * (len(graph))
     max_flow = 0
     res = []
