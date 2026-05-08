@@ -412,6 +412,15 @@ class Graph:
         0 -> 1 -> 2 -> 3
         Total cost of path:  6
         """
+        if self.par[src] != -1 and self.par[src] != src:
+            raise ValueError(
+                f"Source node {src} was not visited by dijkstra (par[{src}]={self.par[src]}). "
+                "Call dijkstra() before show_path()."
+            )
+        if self.par[dest] == -1 and dest != src:
+            print(f"No path exists from {src} to {dest}: destination is unreachable.")
+            return
+
         path = []
         cost = 0
         temp = dest
