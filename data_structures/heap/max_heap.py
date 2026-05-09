@@ -52,11 +52,14 @@ class BinaryHeap:
 
     def pop(self) -> int:
         """Pop the root element"""
+        if self.__size < 1:
+            raise IndexError("pop from empty heap")
         max_value = self.__heap[1]
         self.__heap[1] = self.__heap[self.__size]
         self.__size -= 1
         self.__heap.pop()
-        self.__swap_down(1)
+        if self.__size >= 1:
+            self.__swap_down(1)
         return max_value
 
     @property
