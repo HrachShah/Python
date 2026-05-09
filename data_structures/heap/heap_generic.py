@@ -125,6 +125,7 @@ class Heap:
         top_item_tuple = self.get_top()
         if top_item_tuple:
             self.delete_item(top_item_tuple[0])
+            return list(top_item_tuple)
         return top_item_tuple
 
 
