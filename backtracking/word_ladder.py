@@ -38,11 +38,15 @@ def backtrack(
     []
 
     >>> backtrack("lead", ["lead"], "gold", {"load", "goad", "gold", "lead", "lord"})
-    ['lead', 'lead', 'load', 'goad', 'gold']
+    ['lead', 'load', 'goad', 'gold']
 
     >>> backtrack("game", ["game"], "code", {"came", "cage", "code", "cade", "gave"})
     ['game', 'came', 'cade', 'code']
     """
+
+    # Prevent matching the current word itself as a transformation
+    # (avoids duplicate entries when begin_word is also in word_set)
+    word_set.discard(current_word)
 
     # Base case: If the current word is the end word, return the path
     if current_word == end_word:
@@ -61,6 +65,9 @@ def backtrack(
                 if result:  # valid transformation found
                     return result
                 word_set.add(transformed_word)  # backtrack
+
+    # Restore current_word to word_set before returning (for sibling branches)
+    word_set.add(current_word)
 
     return []  # No valid transformation found
 
@@ -87,7 +94,7 @@ def word_ladder(begin_word: str, end_word: str, word_set: set[str]) -> list[str]
     []
 
     >>> word_ladder("lead", "gold", ["load", "goad", "gold", "lead", "lord"])
-    ['lead', 'lead', 'load', 'goad', 'gold']
+    ['lead', 'load', 'goad', 'gold']
 
     >>> word_ladder("game", "code", ["came", "cage", "code", "cade", "gave"])
     ['game', 'came', 'cade', 'code']
