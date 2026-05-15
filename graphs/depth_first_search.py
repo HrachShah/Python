@@ -25,7 +25,7 @@ def depth_first_search(graph: dict, start: str) -> set[str]:
         # Differences from BFS:
         # 1) pop last element instead of first one
         # 2) add adjacent elements to stack without exploring them
-        for adj in reversed(graph[v]):
+        for adj in reversed(graph.get(v, [])):
             if adj not in explored:
                 stack.append(adj)
     return explored
