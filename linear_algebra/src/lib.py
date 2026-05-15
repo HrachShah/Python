@@ -80,7 +80,7 @@ class Vector:
             result = [self.__components[i] + other.component(i) for i in range(size)]
             return Vector(result)
         else:
-            raise Exception("must have the same size")
+            raise ValueError("vectors must have the same size")
 
     def __sub__(self, other: Vector) -> Vector:
         """
@@ -93,7 +93,7 @@ class Vector:
             result = [self.__components[i] - other.component(i) for i in range(size)]
             return Vector(result)
         else:  # error case
-            raise Exception("must have the same size")
+            raise ValueError("vectors must have the same size")
 
     def __eq__(self, other: object) -> bool:
         """
@@ -124,7 +124,7 @@ class Vector:
             prods = [self.__components[i] * other.component(i) for i in range(size)]
             return sum(prods)
         else:  # error case
-            raise Exception("invalid operand!")
+            raise ValueError("invalid operand!")
 
     def copy(self) -> Vector:
         """
@@ -140,7 +140,7 @@ class Vector:
         if isinstance(i, int) and -len(self.__components) <= i < len(self.__components):
             return self.__components[i]
         else:
-            raise Exception("index out of range")
+            raise ValueError("index out of range")
 
     def change_component(self, pos: int, value: float) -> None:
         """
@@ -168,7 +168,7 @@ class Vector:
         Exception: Vector is empty
         """
         if len(self.__components) == 0:
-            raise Exception("Vector is empty")
+            raise ValueError("Vector is empty")
         squares = [c**2 for c in self.__components]
         return math.sqrt(sum(squares))
 
@@ -298,7 +298,7 @@ class Matrix:
                 matrix.append(row)
             return Matrix(matrix, self.__width, self.__height)
         else:
-            raise Exception("matrix must have the same dimension!")
+            raise ValueError("matrix must have the same dimension!")
 
     def __sub__(self, other: Matrix) -> Matrix:
         """
@@ -314,7 +314,7 @@ class Matrix:
                 matrix.append(row)
             return Matrix(matrix, self.__width, self.__height)
         else:
-            raise Exception("matrices must have the same dimension!")
+            raise ValueError("matrices must have the same dimension!")
 
     @overload
     def __mul__(self, other: float) -> Matrix: ...
@@ -338,7 +338,7 @@ class Matrix:
                     ans.change_component(i, sum(prods))
                 return ans
             else:
-                raise Exception(
+                raise ValueError(
                     "vector must have the same size as the "
                     "number of columns of the matrix!"
                 )
@@ -369,7 +369,7 @@ class Matrix:
         if 0 <= x < self.__height and 0 <= y < self.__width:
             return self.__matrix[x][y]
         else:
-            raise Exception("change_component: indices out of bounds")
+            raise ValueError("change_component: indices out of bounds")
 
     def change_component(self, x: int, y: int, value: float) -> None:
         """
@@ -378,14 +378,14 @@ class Matrix:
         if 0 <= x < self.__height and 0 <= y < self.__width:
             self.__matrix[x][y] = value
         else:
-            raise Exception("change_component: indices out of bounds")
+            raise ValueError("change_component: indices out of bounds")
 
     def minor(self, x: int, y: int) -> float:
         """
         returns the minor along (x, y)
         """
         if self.__height != self.__width:
-            raise Exception("Matrix is not square")
+            raise ValueError("Matrix is not square")
         minor = self.__matrix[:x] + self.__matrix[x + 1 :]
         for i in range(len(minor)):
             minor[i] = minor[i][:y] + minor[i][y + 1 :]
@@ -396,20 +396,20 @@ class Matrix:
         returns the cofactor (signed minor) along (x, y)
         """
         if self.__height != self.__width:
-            raise Exception("Matrix is not square")
+            raise ValueError("Matrix is not square")
         if 0 <= x < self.__height and 0 <= y < self.__width:
             return (-1) ** (x + y) * self.minor(x, y)
         else:
-            raise Exception("Indices out of bounds")
+            raise ValueError("Indices out of bounds")
 
     def determinant(self) -> float:
         """
         returns the determinant of an nxn matrix using Laplace expansion
         """
         if self.__height != self.__width:
-            raise Exception("Matrix is not square")
+            raise ValueError("Matrix is not square")
         if self.__height < 1:
-            raise Exception("Matrix has no element")
+            raise ValueError("Matrix has no element")
         elif self.__height == 1:
             return self.__matrix[0][0]
         elif self.__height == 2:
