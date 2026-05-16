@@ -20,7 +20,7 @@ def _del(k):
 def _run_operation(obj, fun, *args):
     try:
         return fun(obj, *args), None
-    except Exception as e:
+    except (KeyError, TypeError) as e:
         return None, e
 
 
