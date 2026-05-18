@@ -324,7 +324,7 @@ def dpll_algorithm(
         p, value = pure_symbols[0], assignment[pure_symbols[0]]
 
     if p:
-        tmp_model = model
+        tmp_model = dict(model)
         tmp_model[p] = value
         tmp_symbols = list(symbols)
         if p in tmp_symbols:
@@ -336,7 +336,7 @@ def dpll_algorithm(
     if len(unit_symbols) > 0:
         p, value = unit_symbols[0], assignment[unit_symbols[0]]
     if p:
-        tmp_model = model
+        tmp_model = dict(model)
         tmp_model[p] = value
         tmp_symbols = list(symbols)
         if p in tmp_symbols:
