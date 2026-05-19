@@ -20,10 +20,11 @@ def mode(input_list: list) -> list[Any]:
     """
     if not input_list:
         return []
-    result = [input_list.count(value) for value in input_list]
-    y = max(result)  # Gets the maximum count in the input list.
-    # Gets values of modes
-    return sorted({input_list[i] for i, value in enumerate(result) if value == y})
+    counts: dict[Any, int] = {}
+    for value in input_list:
+        counts[value] = counts.get(value, 0) + 1
+    max_count = max(counts.values())
+    return sorted(value for value, count in counts.items() if count == max_count)
 
 
 if __name__ == "__main__":
