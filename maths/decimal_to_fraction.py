@@ -15,6 +15,7 @@ def decimal_to_fraction(decimal: float | str) -> tuple[int, int]:
     (25, 4)
     >>> decimal_to_fraction("78td")
     Traceback (most recent call last):
+        ...
     ValueError: Please enter a valid number
     >>> decimal_to_fraction(0)
     (0, 1)
@@ -24,32 +25,33 @@ def decimal_to_fraction(decimal: float | str) -> tuple[int, int]:
     (1, 8)
     >>> decimal_to_fraction(1000000.25)
     (4000001, 4)
-    >>> decimal_to_fraction(1.3333)
+    >>> decimal_to_fraction("1.3333")
     (13333, 10000)
     >>> decimal_to_fraction("1.23e2")
     (123, 1)
     >>> decimal_to_fraction("0.500")
     (1, 2)
     """
+    from decimal import Decimal, InvalidOperation
+
     try:
-        decimal = float(decimal)
-    except ValueError:
+        d = Decimal(str(decimal))
+    except (ValueError, InvalidOperation):
         raise ValueError("Please enter a valid number")
-    fractional_part = decimal - int(decimal)
-    if fractional_part == 0:
-        return int(decimal), 1
-    else:
-        number_of_frac_digits = len(str(decimal).split(".")[1])
-        numerator = int(decimal * (10**number_of_frac_digits))
-        denominator = 10**number_of_frac_digits
-        divisor, dividend = denominator, numerator
-        while True:
-            remainder = dividend % divisor
-            if remainder == 0:
-                break
-            dividend, divisor = divisor, remainder
-        numerator, denominator = numerator // divisor, denominator // divisor
-        return numerator, denominator
+
+    if d.as_tuple().exponent == 0:
+        return (int(d), 1)
+
+    # Use Decimal for exact arithmetic — avoids float precision loss
+    # e.g. Decimal("1.3333") * 10**4 = 13333 exactly (not 13332.999...)
+    num_digits = abs(d.as_tuple().exponent)
+    numerator = int(d * Decimal(10 ** num_digits))
+    denominator = 10 ** num_digits
+
+    # Simplify using integer GCD
+    from math import gcd
+    g = gcd(numerator, denominator)
+    return (numerator // g, denominator // g)
 
 
 if __name__ == "__main__":
