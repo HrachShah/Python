@@ -121,12 +121,14 @@ def print_solution(grid: Matrix) -> None:
 
 
 if __name__ == "__main__":
-    # make a copy of grid so that you can compare with the unmodified grid
     for example_grid in (initial_grid, no_solution):
         print("\nExample grid:\n" + "=" * 20)
         print_solution(example_grid)
         print("\nExample grid solution:")
-        solution = sudoku(example_grid)
+        # sudoku modifies the grid in-place, so make a copy first so the
+        # original grid is preserved for comparison after the solve
+        copy_grid = [row[:] for row in example_grid]
+        solution = sudoku(copy_grid)
         if solution is not None:
             print_solution(solution)
         else:
