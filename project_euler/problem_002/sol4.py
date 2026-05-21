@@ -56,8 +56,8 @@ def solution(n: int = 4000000) -> int:
 
     try:
         n = int(n)
-    except TypeError, ValueError:
-        raise TypeError("Parameter n must be int or castable to int.")
+    except (TypeError, ValueError):
+        raise ValueError("Parameter n must be int or castable to int.")
     if n <= 0:
         raise ValueError("Parameter n must be greater than or equal to one.")
     getcontext().prec = 100
