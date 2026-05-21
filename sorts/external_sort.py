@@ -116,13 +116,13 @@ class ExternalSort:
         splitter.split(self.block_size, sort_key)
 
         merger = FileMerger(NWayMerge())
-        buffer_size = self.block_size / (num_blocks + 1)
+        buffer_size = int(self.block_size / (num_blocks + 1))
         merger.merge(splitter.get_block_filenames(), filename + ".out", buffer_size)
 
         splitter.cleanup()
 
     def get_number_blocks(self, filename, block_size):
-        return (os.stat(filename).st_size / block_size) + 1
+        return (os.stat(filename).st_size // block_size) + 1
 
 
 def parse_memory(string):
