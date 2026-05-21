@@ -65,7 +65,7 @@ class IIRFilter:
         if len(b_coeffs) != self.order + 1:
             msg = (
                 f"Expected b_coeffs to have {self.order + 1} elements "
-                f"for {self.order}-order filter, got {len(a_coeffs)}"
+                f"for {self.order}-order filter, got {len(b_coeffs)}"
             )
             raise ValueError(msg)
 
