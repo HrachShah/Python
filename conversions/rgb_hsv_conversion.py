@@ -40,13 +40,13 @@ def hsv_to_rgb(hue: float, saturation: float, value: float) -> list[int]:
     [128, 32, 80]
     """
     if hue < 0 or hue > 360:
-        raise Exception("hue should be between 0 and 360")
+        raise ValueError("hue should be between 0 and 360")
 
     if saturation < 0 or saturation > 1:
-        raise Exception("saturation should be between 0 and 1")
+        raise ValueError("saturation should be between 0 and 1")
 
     if value < 0 or value > 1:
-        raise Exception("value should be between 0 and 1")
+        raise ValueError("value should be between 0 and 1")
 
     chroma = value * saturation
     hue_section = hue / 60
@@ -110,13 +110,13 @@ def rgb_to_hsv(red: int, green: int, blue: int) -> list[float]:
     True
     """
     if red < 0 or red > 255:
-        raise Exception("red should be between 0 and 255")
+        raise ValueError("red should be between 0 and 255")
 
     if green < 0 or green > 255:
-        raise Exception("green should be between 0 and 255")
+        raise ValueError("green should be between 0 and 255")
 
     if blue < 0 or blue > 255:
-        raise Exception("blue should be between 0 and 255")
+        raise ValueError("blue should be between 0 and 255")
 
     float_red = red / 255
     float_green = green / 255
