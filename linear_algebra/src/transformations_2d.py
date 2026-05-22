@@ -10,8 +10,8 @@ I have added the codes for reflection, projection, scaling and rotation 2D matri
                     [0.8509035245341184, 0.5253219888177297]]
     projection(45) = [[0.27596319193541496, 0.446998331800279],
                       [0.446998331800279, 0.7240368080645851]]
-    reflection(45) = [[0.05064397763545947, 0.893996663600558],
-                      [0.893996663600558, 0.7018070490682369]]
+    reflection(45) = [[6.123233995736766e-17, 1.0],
+                      [1.0, -6.123233995736766e-17]]
 """
 
 from math import cos, sin
@@ -50,12 +50,11 @@ def projection(angle: float) -> list[list[float]]:
 def reflection(angle: float) -> list[list[float]]:
     """
     >>> reflection(45)  # doctest: +NORMALIZE_WHITESPACE
-    [[0.05064397763545947, 0.893996663600558],
-     [0.893996663600558, 0.7018070490682369]]
+    [[6.123233995736766e-17, 1.0],
+     [1.0, -6.123233995736766e-17]]
     """
     c, s = cos(angle), sin(angle)
-    cs = c * s
-    return [[2 * c - 1, 2 * cs], [2 * cs, 2 * s - 1]]
+    return [[cos(2 * angle), sin(2 * angle)], [sin(2 * angle), -cos(2 * angle)]]
 
 
 print(f"    {scaling(5) = }")
