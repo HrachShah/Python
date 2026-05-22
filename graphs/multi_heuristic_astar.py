@@ -25,16 +25,9 @@ class PriorityQueue:
             heapq.heappush(self.elements, (priority, item))
             self.set.add(item)
         else:
-            # update
-            # print("update", item)
-            temp = []
-            (pri, x) = heapq.heappop(self.elements)
-            while x != item:
-                temp.append((pri, x))
-                (pri, x) = heapq.heappop(self.elements)
-            temp.append((priority, item))
-            for pro, xxx in temp:
-                heapq.heappush(self.elements, (pro, xxx))
+            self.set.remove(item)
+            heapq.heappush(self.elements, (priority, item))
+            self.set.add(item)
 
     def remove_element(self, item):
         if item in self.set:
