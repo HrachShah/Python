@@ -46,8 +46,8 @@ if __name__ == "__main__":
         try:
             token = int(input("Please set token:(must be only digits)\n"))
             break
-        except Exception as error:
-            print(error)
+        except ValueError:
+            print("Please enter digits only")
     for _ in range(token):
         rotator()
     for j in decode:
