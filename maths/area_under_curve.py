@@ -41,7 +41,7 @@ def trapezoidal_area(
         # for trapezoidal area
         x2 = (x_end - x_start) / steps + x1
         fx2 = fnc(x2)
-        area += abs(fx2 + fx1) * (x2 - x1) / 2
+        area += (fx2 + fx1) * (x2 - x1) / 2
         # Increment step
         x1 = x2
         fx1 = fx2
