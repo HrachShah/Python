@@ -266,15 +266,16 @@ class BinarySearchTree:
         {'1': (None, {'78.3': ({'30': (1, 74.0)}, None)})}
         >>> BinarySearchTree().insert(1, 783, 30, 740, 1).get_min()
         {'1': (None, {'783': ({'30': (1, 740)}, None)})}
+        >>> t = BinarySearchTree().insert(8, 3, 6, 1, 10, 14, 13, 4, 7)
+        >>> t.get_min(t.root.right).value
+        10
         """
         if node is None:
             node = self.root
-        if self.root is None:
+        if node is None:
             return None
-        if not self.empty():
-            node = self.root
-            while node.left is not None:
-                node = node.left
+        while node.left is not None:
+            node = node.left
         return node
 
     def remove(self, value: int) -> None:
