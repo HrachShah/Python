@@ -39,13 +39,21 @@ class CircularQueue:
     def first(self):
         """
         Returns the first element of the queue
+
         >>> cq = CircularQueue(5)
         >>> cq.first()
-        False
+        Traceback (most recent call last):
+        ...
+        IndexError: QUEUE IS EMPTY
         >>> cq.enqueue("A").first()
         'A'
+        >>> cq2 = CircularQueue(5)
+        >>> cq2.enqueue(False).first()
+        False
         """
-        return False if self.is_empty() else self.array[self.front]
+        if self.is_empty():
+            raise IndexError("QUEUE IS EMPTY")
+        return self.array[self.front]
 
     def enqueue(self, data):
         """
