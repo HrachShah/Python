@@ -157,6 +157,28 @@ class DoublyLinkedList:
         return delete_node.data
 
     def delete(self, data) -> str:
+        """
+        Delete the first node whose data equals ``data``.
+
+        >>> linked_list = DoublyLinkedList()
+        >>> linked_list.delete("missing")
+        Traceback (most recent call last):
+        ...
+        ValueError: No data matching given value
+        >>> linked_list.insert_at_tail("a")
+        >>> linked_list.insert_at_tail("b")
+        >>> linked_list.delete("a")
+        'a'
+        >>> str(linked_list)
+        'b'
+        >>> linked_list.delete("b")
+        'b'
+        >>> str(linked_list)
+        ''
+        """
+        if self.is_empty():
+            raise ValueError("No data matching given value")
+
         current = self.head
 
         while current.data != data:  # Find the position to delete
