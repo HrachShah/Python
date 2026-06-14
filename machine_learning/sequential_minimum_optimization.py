@@ -505,23 +505,24 @@ def test_cancer_data():
 def test_demonstration():
     # change stdout
     print("\nStarting plot, please wait!")
-    sys.stdout = open(os.devnull, "w")
-
-    ax1 = plt.subplot2grid((2, 2), (0, 0))
-    ax2 = plt.subplot2grid((2, 2), (0, 1))
-    ax3 = plt.subplot2grid((2, 2), (1, 0))
-    ax4 = plt.subplot2grid((2, 2), (1, 1))
-    ax1.set_title("Linear SVM, cost = 0.1")
-    test_linear_kernel(ax1, cost=0.1)
-    ax2.set_title("Linear SVM, cost = 500")
-    test_linear_kernel(ax2, cost=500)
-    ax3.set_title("RBF kernel SVM, cost = 0.1")
-    test_rbf_kernel(ax3, cost=0.1)
-    ax4.set_title("RBF kernel SVM, cost = 500")
-    test_rbf_kernel(ax4, cost=500)
-
-    sys.stdout = sys.__stdout__
-    print("Plot done!")
+    _devnull = open(os.devnull, "w")
+    sys.stdout = _devnull
+    try:
+        ax1 = plt.subplot2grid((2, 2), (0, 0))
+        ax2 = plt.subplot2grid((2, 2), (0, 1))
+        ax3 = plt.subplot2grid((2, 2), (1, 0))
+        ax4 = plt.subplot2grid((2, 2), (1, 1))
+        ax1.set_title("Linear SVM, cost = 0.1")
+        test_linear_kernel(ax1, cost=0.1)
+        ax2.set_title("Linear SVM, cost = 500")
+        test_linear_kernel(ax2, cost=500)
+        ax3.set_title("RBF kernel SVM, cost = 0.1")
+        test_rbf_kernel(ax3, cost=0.1)
+        ax4.set_title("RBF kernel SVM, cost = 500")
+        test_rbf_kernel(ax4, cost=500)
+    finally:
+        sys.stdout = sys.__stdout__
+        _devnull.close()
 
 
 def test_linear_kernel(ax, cost):
