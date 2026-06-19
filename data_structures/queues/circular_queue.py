@@ -107,3 +107,17 @@ class CircularQueue:
         self.front = (self.front + 1) % self.n
         self.size -= 1
         return temp
+
+
+if __name__ == "__main__":
+    import doctest
+    import runpy
+
+    runpy.run_module(
+        "data_structures.queues.circular_queue",
+        run_name="data_structures.queues.circular_queue",
+        alter_sys=True,
+    )
+    import sys as _sys
+
+    doctest.testmod(_sys.modules["data_structures.queues.circular_queue"])
