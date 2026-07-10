@@ -14,7 +14,7 @@ import math
 
 
 def minimax(
-    depth: int, node_index: int, is_max: bool, scores: list[int], height: float
+    depth: int, node_index: int, is_max: bool, scores: list[int], height: int
 ) -> int:
     """
     This function implements the minimax algorithm, which helps achieve the optimal
@@ -28,7 +28,9 @@ def minimax(
     - is_max: A boolean indicating whether the current move
               is for the maximizer (True) or minimizer (False).
     - scores: A list containing the scores of the leaves of the game tree.
-    - height: The maximum height of the game tree.
+    - height: The maximum height of the game tree. Must equal the integer
+              log2 of ``len(scores)``; the caller is expected to compute it
+              as ``math.log(len(scores), 2)`` or ``scores.bit_length() - 1``.
 
     Returns:
     - An integer representing the optimal score for the current player.
@@ -56,6 +58,24 @@ def minimax(
         raise ValueError("Depth cannot be less than 0")
     if len(scores) == 0:
         raise ValueError("Scores cannot be empty")
+    # ``height`` is compared against an int ``depth``; if a caller passes
+    # the float returned by ``math.log(n, 2)`` for a non-power-of-2 ``n``
+    # the equality check would never fire and the recursion would walk
+    # past the leaves and overflow. Reject the up-front with a clear
+    # ValueError so the failure mode is "invalid argument" instead of
+    # a RecursionError from a runaway tree walk.
+    if isinstance(height, float) and not height.is_integer():
+        raise ValueError(
+            f"height must be the integer log2 of len(scores); got {height}. "
+            f"len(scores)={len(scores)} is not a power of 2."
+        )
+    # Normalise so the int/float comparison in the base case is exact.
+    height = int(height)
+    if 1 << height != len(scores):
+        raise ValueError(
+            f"len(scores) must be 2**height; got len(scores)={len(scores)}, "
+            f"height={height}."
+        )
 
     # Base case: If the current depth equals the height of the tree,
     # return the score of the current node.
@@ -81,7 +101,7 @@ def minimax(
 def main() -> None:
     # Sample scores and height calculation
     scores = [90, 23, 6, 33, 21, 65, 123, 34423]
-    height = math.log(len(scores), 2)
+    height = int(math.log(len(scores), 2))
 
     # Calculate and print the optimal value using the minimax algorithm
     print("Optimal value : ", end="")
