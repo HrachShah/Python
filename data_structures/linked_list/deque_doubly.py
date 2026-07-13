@@ -130,7 +130,7 @@ class LinkedDeque(_DoublyLinkedBase):
         >>> d.remove_last()
         Traceback (most recent call last):
            ...
-        IndexError: remove_first from empty list
+        IndexError: remove_last from empty list
         >>> d.add_first('A') # doctest: +ELLIPSIS
         <data_structures.linked_list.deque_doubly.LinkedDeque object at ...
         >>> d.remove_last()
@@ -139,5 +139,5 @@ class LinkedDeque(_DoublyLinkedBase):
         True
         """
         if self.is_empty():
-            raise IndexError("remove_first from empty list")
+            raise IndexError("remove_last from empty list")
         return self._delete(self._trailer._prev)
