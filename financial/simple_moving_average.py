@@ -30,8 +30,12 @@ def simple_moving_average(
     Traceback (most recent call last):
     ...
     ValueError: Window size must be a positive integer
+    >>> simple_moving_average([10, 12, 15], True)
+    Traceback (most recent call last):
+    ...
+    ValueError: Window size must be a positive integer
     """
-    if window_size < 1:
+    if isinstance(window_size, bool) or not isinstance(window_size, int) or window_size < 1:
         raise ValueError("Window size must be a positive integer")
 
     sma: list[float | None] = []
