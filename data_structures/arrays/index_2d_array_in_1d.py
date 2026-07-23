@@ -86,12 +86,20 @@ def index_2d_array_in_1d(array: list[list[int]], index: int) -> int:
     Traceback (most recent call last):
         ...
     ValueError: no items in array
+    >>> index_2d_array_in_1d([[0, 1], [2]], 2)
+    Traceback (most recent call last):
+        ...
+    ValueError: rows must have the same length
     """
     rows = len(array)
-    cols = len(array[0])
-
-    if rows == 0 or cols == 0:
+    if rows == 0:
         raise ValueError("no items in array")
+
+    cols = len(array[0])
+    if cols == 0:
+        raise ValueError("no items in array")
+    if any(len(row) != cols for row in array):
+        raise ValueError("rows must have the same length")
 
     if index < 0 or index >= rows * cols:
         raise ValueError("index out of range")
