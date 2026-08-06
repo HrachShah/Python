@@ -20,7 +20,12 @@ def calculate_waiting_times(burst_times: list[int]) -> list[int]:
     [5, 8, 9, 6]
     >>> calculate_waiting_times([12, 2, 10])
     [12, 2, 12]
+    >>> calculate_waiting_times([])
+    []
     """
+    if any(burst_time < 0 for burst_time in burst_times):
+        raise ValueError("burst times must be non-negative")
+
     quantum = 2
     rem_burst_times = list(burst_times)
     waiting_times = [0] * len(burst_times)
