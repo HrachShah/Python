@@ -31,8 +31,16 @@ def sliding_window_maximum(numbers: list[int], window_size: int) -> list[int]:
     [4, 2, 12, 3]
     >>> sliding_window_maximum([1], 1)
     [1]
+    >>> sliding_window_maximum([1, 2], 2.5)
+    Traceback (most recent call last):
+    ...
+    ValueError: Window size must be a positive integer
+    >>> sliding_window_maximum([1, 2], True)
+    Traceback (most recent call last):
+    ...
+    ValueError: Window size must be a positive integer
     """
-    if window_size <= 0:
+    if isinstance(window_size, bool) or not isinstance(window_size, int) or window_size <= 0:
         raise ValueError("Window size must be a positive integer")
     if not numbers:
         return []
